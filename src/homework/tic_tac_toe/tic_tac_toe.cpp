@@ -6,7 +6,21 @@ using namespace std;
 
 bool TicTacToe::game_over()
 {
-    return check_board_full();
+    // Homework 7:
+    if(check_column_win() || check_row_win() || check_diagonal_win() && !check_board_full())
+    {
+        set_winner();
+        return true;
+    }
+    else if(check_board_full())
+    {
+        winner = "C";
+        return true;
+    }
+    else if(!check_board_full())
+    {
+        return false;
+    }
 }
 
 void TicTacToe::start_game(string first_player)
@@ -15,10 +29,6 @@ void TicTacToe::start_game(string first_player)
     {
         player = first_player;
         clear_board();
-    }
-    else
-    {
-        cout << "Please select 'X' or 'O'";
     }
 }
 
@@ -48,6 +58,53 @@ void TicTacToe::display_board() const
             cout << " | ";
         }
     }
+}
+// Homework 7:
+bool TicTacToe::check_column_win()
+{
+    bool win = false;
+    for(int i = 0; i <= 2; i = i + 1)
+    {   
+        if(pegs[i] == pegs[3+i] && pegs[i] == pegs[6+i])
+        {
+            win = true;
+        }
+    }
+    return win;
+}
+// Homework 7:
+bool TicTacToe::check_row_win()
+{
+    bool win = false;
+    for(int i = 0; i <= 2; i = i + 1)
+    {
+        if(pegs[3*i] == pegs[1+(3*i)] && pegs[3*i] == pegs[2+(3*i)])
+        {
+            win = true;
+        }
+    }
+    return win;
+}
+// Homework 7:
+bool TicTacToe::check_diagonal_win()
+{
+    bool win = false;
+    for(int i = 0; i <= 1; i++)
+    {
+        if(pegs[4] == pegs[2*i] && pegs[4] == pegs[8-(2*i)])
+        {
+            win = true;
+        }
+    }
+    return win;
+}
+// Homework 7:
+void TicTacToe::set_winner()
+{
+    if(player == "X")
+        winner == "O";
+    else
+        player = "X";
 }
 
 void TicTacToe::set_next_player()
